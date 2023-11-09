@@ -1,42 +1,29 @@
 package org.example.wiseSaying.service;
 
 import org.example.wiseSaying.entity.WiseSaying;
+import org.example.wiseSaying.repository.WiseSayingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WiseSayingService {
-    long lastWiseSayingId = 0;
-    List<WiseSaying> wiseSayings = new ArrayList<>();
-
+    WiseSayingRepository wiseSayingRepository = new WiseSayingRepository();
     public long write(String content, String author) {
-        long id = lastWiseSayingId + 1;
-
-        WiseSaying wiseSaying = new WiseSaying(id, author, content);
-        wiseSayings.add(wiseSaying);
-        lastWiseSayingId = id;
-
-        return id;
+        return this.wiseSayingRepository.write(content, author);
     }
 
     public List<WiseSaying> findByAll() {
-        return wiseSayings;
+        return wiseSayingRepository.findByAll();
     }
-    public void remove (WiseSaying wiseSaying) {
-        wiseSayings.remove(wiseSaying);
+    public void remove (WiseSaying wiseSaying){
+        this.wiseSayingRepository.remove(wiseSaying);
     }
 
     public void modify(WiseSaying wiseSaying, String author, String content) {
-        wiseSaying.setAuthor(author);
-        wiseSaying.setContent(content);
+        this.wiseSayingRepository.modify(wiseSaying, author, content);
     }
 
     public WiseSaying findById(long id) {
-        for (WiseSaying wiseSaying : wiseSayings) {
-            if (wiseSaying.getId() == id ) {
-                return wiseSaying;
-            }
-        }
-        return null;
+        return this.wiseSayingRepository.findById(id);
     }
 }
